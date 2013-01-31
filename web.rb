@@ -10,10 +10,10 @@ Dir["./lib/*.rb"].each {|file| require file }
 set :partial_template_engine, :haml
 
 plurk = Plurk.new(ENV["PLURK_OAUTH_CONSUMER_KEY"], ENV["PLURK_OAUTH_CONSUMER_SECRET"])
-plurk.get_authorize_url(to('/deanonymize'))
 
 get '/' do
   @plurk = plurk
+  @plurk.get_authorize_url(to('/deanonymize'))
   haml :home
 end
 
