@@ -9,8 +9,8 @@ set :root, File.dirname(__FILE__)
 Dir["./lib/*.rb"].each {|file| require file }
 set :partial_template_engine, :haml
 
-plurk = Plurk.new(CONFIG["consumer_key"], CONFIG["consumer_secret"])
-plurk.get_authorize_url(CONFIG["callback_url"])
+plurk = Plurk.new(ENV["PLURK_OAUTH_CONSUMER_KEY"], ENV["PLURK_OAUTH_CONSUMER_SECRET"])
+plurk.get_authorize_url(to('/deanonymize'))
 
 get '/' do
   @plurk = plurk
