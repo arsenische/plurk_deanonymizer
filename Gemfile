@@ -1,3 +1,6 @@
 source :rubygems
-gem 'sinatra', '1.1.0'
+gem 'sinatra'
 gem 'thin'
+gem 'json'
+gem 'oauth'
+gem 'haml'

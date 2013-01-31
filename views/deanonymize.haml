@@ -1,0 +1,28 @@
+!!! 5
+
+- if (!@plurk_json.nil?) && (!@plurk_json.empty?)
+  %div{style:"border-bottom:1px solid gray"}
+    %strong
+      Plurk ##{@plurk_id.to_s}:
+    =@plurk_json["plurk"]["content_raw"]
+
+%pre
+  =@results
+
+
+%form{method:"POST",action:"/deanonymize"}
+
+  %span{style: (@plurk_id.to_s.to_i(36) > 0 ? "display:none" : "")}
+    Plurk id (base36):
+    %input{name:"plurk_id",value:@plurk_id}
+  %textarea{name:"commenters",style:"display:none"}
+    =( (@commenters.nil? || @commenters.empty?) ? "" : JSON.pretty_generate(@commenters) )
+  %textarea{name:"plurk_json",style:"display:none"}
+    =( (@plurk_json.nil? || @plurk_json.empty?) ? "" : JSON.pretty_generate(@plurk_json) )
+  %input{name:"token",type:"hidden",value:@access_token[:token]}
+  %input{name:"secret",type:"hidden",value:@access_token[:secret]}
+
+  %input{type:"submit",value:"Continue"}
+
+%a{href:"/deanonymize?token=#{@access_token[:token]}&secret=#{@access_token[:secret]}"}
+  Reset
