@@ -5,6 +5,18 @@
     %strong
       Plurk ##{@plurk_id.to_s}:
     =@plurk_json["plurk"]["content_raw"]
+    %div{style:"padding:10px"}
+      %strong
+        Commentators:
+      = (@commenters.nil? || @commenters.empty?) ? "n/a" : @commenters.map{|c|c["name"]}.inspect
+    %div{style:"padding:10px"}
+      %strong
+        Suspects:
+      = (@common_friends.nil? || @common_friends.empty?) ? "n/a" : @common_friends.inspect
+
+%br
+%strong
+  Investigation of common friends:
 
 %pre
   =@results
@@ -22,7 +34,10 @@
   %input{name:"token",type:"hidden",value:@access_token[:token]}
   %input{name:"secret",type:"hidden",value:@access_token[:secret]}
 
+  %br
+  Press
   %input{type:"submit",value:"Continue"}
-
-%a{href:"/deanonymize?token=#{@access_token[:token]}&secret=#{@access_token[:secret]}"}
-  Reset
+  to continue or 
+  %a{href:"/deanonymize?token=#{@access_token[:token]}&secret=#{@access_token[:secret]}"}
+    Reset
+  to start over.

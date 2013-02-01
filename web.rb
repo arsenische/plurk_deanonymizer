@@ -46,15 +46,12 @@ def do_deanonymize plurk
       @plurk_json = JSON.parse(params[:plurk_json])
     end
 
-    @results += "Commentators: "
-
     if params[:commenters].nil? || params[:commenters].empty? || params[:commenters]=="null"
       json = plurk.post('/APP/Responses/get', {:plurk_id => plurk_id})
-      @commenters = json['friends'].map{|k,v| {id:k, name:v['nick_name'], friends:nil}}
-      @results += "{just received}: #{@commenters.inspect}"
+      @commenters = json['friends'].map{|k,v| {:id => k, "name" => v['nick_name'], :friends => nil}}
     else
       @commenters = JSON.parse(params[:commenters])
-      @results += @commenters.map{|c|c['name']}.inspect + "\n\nInvestigation of common friends:\n\nUniversum\n"
+      @results += "Universum\n"
 
       @commenters.each_with_index do |commenter, index|
         if commenter["friends"].nil? || commenter["friends"].empty? || commenter["friends"]=="null"
