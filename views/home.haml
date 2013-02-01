@@ -1,8 +1,16 @@
 !!! 5
-%strong
-  Please
-  %a{href:@plurk.get_authorize_url(to("/deanonymize"))}
-    authorize this app
+
+%p
+This app tries to detect the author of anonymous plurk by its id.
+It assumes that anonymous plurk is commented only by author's friends.
+Thus common friends of all commenters are suspected to be anonymous plurk's author.
+
+%p
+  %strong
+    Please
+    %a{href:@plurk.get_authorize_url(to("/deanonymize"))}
+      authorize this app
+    (this is a temporary authorization, we don't store it anywhere)
   
 
 

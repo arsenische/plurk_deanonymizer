@@ -27,6 +27,7 @@
   %span{style: (@plurk_id.to_s.to_i(36) > 0 ? "display:none" : "")}
     Plurk id (base36):
     %input{name:"plurk_id",value:@plurk_id}
+    (anonymous plurk's link contains plurk id, e.g. for link "http://www.plurk.com/p/i1234" plurk id is "i1234")
   %textarea{name:"commenters",style:"display:none"}
     =( (@commenters.nil? || @commenters.empty?) ? "" : JSON.pretty_generate(@commenters) )
   %textarea{name:"plurk_json",style:"display:none"}
