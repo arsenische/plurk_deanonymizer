@@ -4,19 +4,11 @@
 
   function intersection(a, b)
   {
-    var result = new Array();
-    while( a.length > 0 && b.length > 0 )
-    {  
-       if      (a[0] < b[0] ){ a.shift(); }
-       else if (a[0] > b[0] ){ b.shift(); }
-       else /* they're equal */
-       {
-         result.push(a.shift());
-         b.shift();
-       }
-    }
-
-    return result;
+    return a.filter(function(n) {
+        if(b.indexOf(n) == -1)
+            return false;
+        return true;
+    });  
   }
 
   function get_common_friends()
@@ -25,18 +17,15 @@
     common_friends = null;
     for (var i in commenters)
     {
-      console.log(commenters[i].name+"'s friends: "+(commenters[i].friends==null?"null":commenters[i].friends.toString())+"\n");
-
       if (!$("#checkbox_"+commenters[i].name).is(":checked"))
         continue;
-
-      console.log($("#checkbox_"+commenters[i].name).attr("checked"));
 
       if (common_friends==null)
         common_friends = commenters[i].friends;
 
       if ( (common_friends!=null) && (commenters[i].friends!=null) )
       {
+        console.log(commenters[i].name+"'s friends: "+(commenters[i].friends==null?"null":commenters[i].friends.toString())+"\n");
         common_friends = intersection(common_friends.sort(),commenters[i].friends.sort());
         console.log("common_friends: "+common_friends.toString());
       }
