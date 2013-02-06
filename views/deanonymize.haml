@@ -1,5 +1,49 @@
 !!! 5
 
+:javascript
+
+  function intersection(a, b)
+  {
+    var result = new Array();
+    while( a.length > 0 && b.length > 0 )
+    {  
+       if      (a[0] < b[0] ){ a.shift(); }
+       else if (a[0] > b[0] ){ b.shift(); }
+       else /* they're equal */
+       {
+         result.push(a.shift());
+         b.shift();
+       }
+    }
+
+    return result;
+  }
+
+  function get_common_friends()
+  {
+    commenters = JSON.parse($("#commenters").html());
+    common_friends = null;
+    for (var i in commenters)
+    {
+      console.log(commenters[i].name+"'s friends: "+(commenters[i].friends==null?"null":commenters[i].friends.toString())+"\n");
+
+      if (!$("#checkbox_"+commenters[i].name).is(":checked"))
+        continue;
+
+      console.log($("#checkbox_"+commenters[i].name).attr("checked"));
+
+      if (common_friends==null)
+        common_friends = commenters[i].friends;
+
+      if ( (common_friends!=null) && (commenters[i].friends!=null) )
+      {
+        common_friends = intersection(common_friends.sort(),commenters[i].friends.sort());
+        console.log("common_friends: "+common_friends.toString());
+      }
+    }
+    $("#suspects").text(common_friends.toString());
+  }
+
 - if (!@plurk_json.nil?) && (!@plurk_json.empty?)
   %div{style:"border-bottom:1px solid gray"}
     %strong
@@ -8,11 +52,20 @@
     %div{style:"padding:10px"}
       %strong
         Commentators:
-      = (@commenters.nil? || @commenters.empty?) ? "n/a" : @commenters.map{|c|c["name"]}.inspect
+      - if (@commenters.nil? || @commenters.empty?)
+        n/a
+      - else
+        - @commenters.each do |c|
+          - if c["friends"].nil?
+            %input{type:"checkbox",id:"checkbox_"+c["name"],disabled:"disabled"}
+          - else
+            %input{type:"checkbox",checked:"checked",id:"checkbox_"+c["name"],onclick:"get_common_friends();"}
+          =c["name"]
     %div{style:"padding:10px"}
       %strong
         Suspects:
-      = (@common_friends.nil? || @common_friends.empty?) ? "n/a" : @common_friends.inspect
+      %span{id:"suspects"}
+        = (@common_friends.nil? || @common_friends.empty?) ? "n/a" : @common_friends.inspect
 
 %br
 %strong
@@ -28,9 +81,9 @@
     Plurk id (base36):
     %input{name:"plurk_id",value:@plurk_id}
     (anonymous plurk's link contains plurk id, e.g. for link "http://www.plurk.com/p/i1234" plurk id is "i1234")
-  %textarea{name:"commenters",style:"display:none"}
+  %textarea{name:"commenters",id:"commenters",style:"display:none"}
     =( (@commenters.nil? || @commenters.empty?) ? "" : JSON.pretty_generate(@commenters) )
-  %textarea{name:"plurk_json",style:"display:none"}
+  %textarea{id:"plurk_json",name:"plurk_json",style:"display:none"}
     =( (@plurk_json.nil? || @plurk_json.empty?) ? "" : JSON.pretty_generate(@plurk_json) )
   %input{name:"token",type:"hidden",value:@access_token[:token]}
   %input{name:"secret",type:"hidden",value:@access_token[:secret]}
