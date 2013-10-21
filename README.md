@@ -1,3 +1,5 @@
+It allows to deanonymize your friends' if their anonymous plurk receives sufficient amount of comments.
+
 Setup
 -----
 
