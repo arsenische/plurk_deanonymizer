@@ -1,4 +1,4 @@
-[![Tip4Commit](http://tip4commit.com/projects/16.svg)](http://tip4commit.com/projects/16)
+[![tip for next commit](http://tip4commit.com/projects/16.svg)](http://tip4commit.com/projects/16)
 
 It allows to deanonymize your friends' if their anonymous plurk receives sufficient amount of comments.
 
